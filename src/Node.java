@@ -2,7 +2,10 @@ public class Node
 {
   public QWOP[] dna;
   
-  public Node() {}
+  public Node()
+  {
+	  dna = new QWOP[0];
+  }
   
   public Node(QWOP qwop)
   {
@@ -29,12 +32,14 @@ public class Node
 	  dna[n.dna.length] = addition;
   }
   
+  /*
   public Node mutated(QWOP change)
-  {
+  {  
 	  Node n = new Node(this);
 	  n.dna[n.dna.length - 1] = change;
 	  return n;
   }
+  */
   
   public String toString()
   {

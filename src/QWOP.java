@@ -1,4 +1,3 @@
-
 public class QWOP 
 {
 	public boolean q;

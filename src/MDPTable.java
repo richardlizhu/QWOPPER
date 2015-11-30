@@ -1,19 +1,19 @@
 import java.util.*;
 
-public class MDP
+public class MDPTable
 {
-	public HashMap<String, Node> nodes;
-	public Node current;
+	public HashMap<String, TableEntry> table;
+	public TableEntry current;
 	
-	private Node start;
+	private TableEntry start;
 	private QWOP[] qwops;
 	
-	public MDP()
+	public MDPTable()
 	{
-		current = new Node();
+		current = new TableEntry(new Node());
 		start = current;
-		nodes = new HashMap<String, Node>();
-		nodes.put(current.toString(), current);
+		table = new HashMap<String, TableEntry>();
+		table.put(current.toString(), current);
 		
 		qwops = new QWOP[16];
 		qwops[0] = new QWOP(false, false, false, false);
@@ -34,10 +34,10 @@ public class MDP
 		qwops[15] = new QWOP(true, true, true, true);
 	}
 	
-	//return value is the new Node you're at
-	public Node takeAction(int a)
+	//return value is the new TableEntry you're at
+	public TableEntry takeAction(int a)
 	{
-		if(a < 0 || a >= qwops.length)
+		if(a < 0 || a >= 16)
 		{
 			System.out.println("You have requested and invalid action.");
 			return null;
@@ -47,10 +47,10 @@ public class MDP
 		
 		//updateKeys(pressed);
 		
-		current = new Node(current, pressed);
-		if(!nodes.containsKey(current.toString()))
+		current = new TableEntry(new Node(current.node, pressed));
+		if(!table.containsKey(current.toString()))
 		{
-			nodes.put(current.toString(), current);
+			table.put(current.toString(), current);
 		}
 		
 		return current;

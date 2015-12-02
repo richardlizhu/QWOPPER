@@ -13,6 +13,12 @@ public class TableEntry
 		}
 	}
 	
+	public TableEntry(Node n, int[] v)
+	{
+		this.node = n;
+		this.values = v;
+	}
+	
 	public String toString()
 	{
 		return node.toString();

@@ -32,6 +32,37 @@ public class Node
 	  dna[n.dna.length] = addition;
   }
   
+  public Node(String s)
+  {
+	  dna = new QWOP[s.split("[").length-1];
+	  String[] qwops = s.split("[");
+	  for(int i = 0; i < qwops.length;i++)
+	  {
+		  boolean q = false;
+		  boolean w = false;
+		  boolean o = false;
+		  boolean p = false;
+		  String currentQWOP = qwops[i];
+		  if (currentQWOP.charAt(0)=='1')
+		  {
+			  q = true;
+		  }
+		  if (currentQWOP.charAt(1)=='1')
+		  {
+			  w = true;
+		  }
+		  if (currentQWOP.charAt(2)=='1')
+		  {
+			  o = true;
+		  }
+		  if (currentQWOP.charAt(3)=='1')
+		  {
+			  p = true;
+		  }
+		  dna[i] = new QWOP(q,w,o,p);
+	  }
+  }
+  
   /*
   public Node mutated(QWOP change)
   {  

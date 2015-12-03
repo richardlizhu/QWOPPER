@@ -1,24 +1,32 @@
+import java.io.FileNotFoundException;
+
 public class QLearning {
 	
-	private double epsilon = 0.0;
-	private double epsilonInc = 0.005;
-	private MDPTable mdp;
-	private double gamma = 0.95;
-	private boolean gameEnd = false; // indicate gameEnd
-	private double reward = 10;
+	private static double epsilon = 0.0;
+	private static double epsilonInc = 0.005;
+	private static MDPTable mdp;
+	private static double gamma = 0.95;
+	private static boolean gameEnd = false; // indicate gameEnd
+	private static double reward = 10;
 	
-	public void Learn() {
+	public static void main(String[] args) throws FileNotFoundException
+	{
+		Learn();
+	}
+	
+	public static void Learn() throws FileNotFoundException {
 		mdp = new MDPTable();
 		while(epsilon <= 1) {
 			while(!gameEnd) {
 				move();
 			}
 			epsilon += epsilonInc;
+			Meta.save("Data.txt", mdp.table);
 			mdp.restart();
 		}
 	}
 	
-	public void move() {
+	public static void move() {
 		double r = Math.random();
 		if (r < epsilon) {
 			// exploit

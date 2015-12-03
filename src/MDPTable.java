@@ -15,7 +15,7 @@ public class MDPTable
 		table = new HashMap<String, TableEntry>();
 		table.put(current.toString(), current);
 		
-		qwops = new QWOP[16];
+		qwops = new QWOP[Constants.NumActions];
 		qwops[0] = new QWOP(false, false, false, false);
 		qwops[1] = new QWOP(false, false, false, true);
 		qwops[2] = new QWOP(false, false, true, false);

@@ -45,7 +45,8 @@ public class MDPTable
 		
 		QWOP pressed = qwops[a];
 		
-		//updateKeys(pressed);
+		//actually "press" the keys
+		Bot.press(pressed);
 		
 		current = new TableEntry(new Node(current.node, pressed));
 		if(!table.containsKey(current.toString()))

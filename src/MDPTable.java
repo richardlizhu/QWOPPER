@@ -37,7 +37,7 @@ public class MDPTable
 	//return value is the new TableEntry you're at
 	public TableEntry takeAction(int a)
 	{
-		if(a < 0 || a >= 16)
+		if(a < 0 || a >= Constants.NumActions)
 		{
 			System.out.println("You have requested and invalid action.");
 			return null;

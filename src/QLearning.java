@@ -9,6 +9,7 @@ public class QLearning {
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false; // indicate gameEnd
 	private static long start;
+	private static long currentTime;
 	
 	public static void main(String[] args) throws NumberFormatException, Exception
 	{
@@ -19,8 +20,15 @@ public class QLearning {
 		mdp = new MDPTable();
 		while(epsilon <= 1) {
 			start = System.currentTimeMillis();
+			currentTime = start;
 			while(!gameEnd) {
+				long nextTimeStep = currentTime + Constants.timeStep * 1000;
 				move();
+				long temp = System.currentTimeMillis();
+				if (temp < nextTimeStep)
+					Thread.sleep(nextTimeStep-temp);
+				}
+				currentTime = System.currentTimeMillis();
 			}
 			epsilon += epsilonInc;
 			Meta.save("Data.txt", mdp.table);

@@ -77,8 +77,8 @@ public class Meta {
 			String node = lineSplit[1];
 			String values = lineSplit[2];
 			Node n = new Node(node);
-			int[] vals = new int[16];
-			for (int j = 0; j < 16;j++)
+			int[] vals = new int[Constants.NumActions];
+			for (int j = 0; j < Constants.NumActions; j++)
 			{
 				vals[j] = (int) values.charAt(j);
 			}

@@ -14,7 +14,6 @@ public class Meta {
 	{
 		File f = new File(location);
 		PrintWriter writer = new PrintWriter(f);
-		int size = table.size();
 		Set<String> keys = table.keySet();
 		Iterator<String> iterator = keys.iterator();
 		while(iterator.hasNext())

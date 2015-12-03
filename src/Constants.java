@@ -1,4 +1,4 @@
 
 public class Constants {
-	static int NumActions = 9;
+	public static int NumActions = 9;
 }

@@ -1,24 +1,26 @@
 import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.lang.System;
 
 public class QLearning {
 	
 	private static double epsilon = 0.0;
-	private static double epsilonInc = 0.005;
+	private static double epsilonInc = 0.001;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false;
 	private static long start;
 	private static long currentTime;
-	private static double record = -1;
+	private static double record = -1000;
 	private static long recordTime = 0; 
 	public static Robot r;
+	private static double allTimeRecord = -1000;
 	
 	public static void main(String[] args) throws Exception
 	{
 		r = new Robot();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		Learn();
 	}
 	
@@ -39,9 +41,19 @@ public class QLearning {
 			epsilon += epsilonInc;
 			Meta.save("Data.txt", mdp.table);
 			mdp.restart();
+			if (record > allTimeRecord) {
+				System.out.println("allTimeRecord: " + String.valueOf(record));
+				allTimeRecord = record;
+			}
 			recordTime = 0;
-			record = -1;
+			record = -1000;
 			gameEnd = false;
+			Bot.press(new QWOP());
+			r.keyPress(KeyEvent.VK_CONTROL);
+			r.keyPress(KeyEvent.VK_R);
+			Thread.sleep(500);
+			r.keyRelease(KeyEvent.VK_R);
+			r.keyRelease(KeyEvent.VK_CONTROL);
 		}
 	}
 	
@@ -56,6 +68,9 @@ public class QLearning {
 					maxVal = mdp.current.values[i];
 					maxAction = i;
 				}
+			}
+			if (maxVal == 0) {
+				maxAction = (int)(Math.random() * Constants.NumActions);
 			}
 			TableEntry current = mdp.current;
 			mdp.takeAction(maxAction); 
@@ -82,7 +97,7 @@ public class QLearning {
 	}
 	
 	private static void checkRecord() {
-		if (recordTime - System.currentTimeMillis() > 2000) {
+		if (System.currentTimeMillis() - recordTime > 2000) {
 			gameEnd = true;
 		}
 	}

@@ -35,7 +35,7 @@ public class MDPTable
 	}
 	
 	//return value is the new TableEntry you're at
-	public TableEntry takeAction(int a)
+	public TableEntry takeAction(int a) throws Exception
 	{
 		if(a < 0 || a >= Constants.NumActions)
 		{

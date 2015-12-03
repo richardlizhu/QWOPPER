@@ -16,8 +16,8 @@ public class QWOP
 	public QWOP(boolean q, boolean w, boolean o, boolean p)
 	{
 		this.q = q;
-		this.w = q;
-		this.o = q;
-		this.p = q;
+		this.w = w;
+		this.o = o;
+		this.p = p;
 	}
 }

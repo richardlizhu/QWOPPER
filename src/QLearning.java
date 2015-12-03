@@ -1,3 +1,4 @@
+import java.awt.Robot;
 import java.io.FileNotFoundException;
 import java.lang.System;
 
@@ -12,9 +13,12 @@ public class QLearning {
 	private static long currentTime;
 	private static double record = -1;
 	private static long recordTime = 0; 
+	public static Robot r;
 	
-	public static void main(String[] args) throws NumberFormatException, Exception
+	public static void main(String[] args) throws Exception
 	{
+		r = new Robot();
+		Thread.sleep(1000);
 		Learn();
 	}
 	

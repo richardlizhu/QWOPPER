@@ -3,10 +3,11 @@ import java.awt.event.KeyEvent;
 
 public class Bot
 {
-	static Robot r = new Robot();
+	
 	
 	public static void press(QWOP qwop) throws Exception
 	{
+		Robot r = QLearning.r;
 		if (qwop.q)
 		{
 			r.keyPress(KeyEvent.VK_Q);

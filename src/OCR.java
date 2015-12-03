@@ -1,3 +1,6 @@
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+
 
 public class OCR {
 	private static int ltx = 2740;
@@ -8,7 +11,9 @@ public class OCR {
 	{
 		while(true)
 		{
+			Robot r = new Robot();
 			System.out.println(OCR.read());
+			r.keyRelease(KeyEvent.VK_Q);
 		}
 	}
 	

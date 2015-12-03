@@ -53,10 +53,4 @@ public class MDPTable
 	{
 		current = start;
 	}
-	
-	public int currentReward()
-	{
-		int reward = 9; //Call reward function
-		return reward;
-	}
 }

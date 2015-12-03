@@ -30,13 +30,15 @@ public class QLearning {
 					maxAction = i;
 				}
 			}
-			String key = mdp.current.toString();
+			TableEntry current = mdp.current;
 			mdp.takeAction(maxAction); 
-			mdp.table.get(key).values[maxAction] = reward + gamma*mdp.current.value();
+			current.values[maxAction] = reward + gamma*mdp.current.value();
 		} else {
 			// explore
-			int i = (int)(Math.random() * 16);
-			mdp.takeAction(i);
+			int i = (int)(Math.random() * Constants.NumActions);
+			TableEntry current = mdp.current;
+			mdp.takeAction(i); 
+			current.values[i] = reward + gamma*mdp.current.value();
 		}
 	}
 	

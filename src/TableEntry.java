@@ -27,7 +27,7 @@ public class TableEntry
 	public double value()
 	{
 		double m = 0;
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < Constants.NumActions; i++) {
 			m = Math.max(m, values[i]);
 		}
 		return m;

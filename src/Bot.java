@@ -3,8 +3,6 @@ import java.awt.event.KeyEvent;
 
 public class Bot
 {
-	
-	
 	public static void press(QWOP qwop) throws Exception
 	{
 		Robot r = QLearning.r;

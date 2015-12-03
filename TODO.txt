@@ -1,0 +1,2 @@
+Change end condition
+Make it work for lower resolution screens

@@ -6,8 +6,8 @@ public class TableEntry
 	public TableEntry(Node n)
 	{
 		this.node = n;
-		values = new double[16];
-		for(int i = 0; i < 16; i++)
+		values = new double[Constants.NumActions];
+		for(int i = 0; i < Constants.NumActions; i++)
 		{
 			values[i] = 0;
 		}

@@ -24,7 +24,7 @@ public class QLearning {
 			// exploit
 			double maxVal = 0;
 			int maxAction = 0;
-			for (int i = 0; i < 15; i++) {
+			for (int i = 0; i < Constants.NumActions; i++) {
 				if (mdp.current.values[i] > maxVal) {
 					maxVal = mdp.current.values[i];
 					maxAction = i;

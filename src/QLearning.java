@@ -22,12 +22,11 @@ public class QLearning {
 			start = System.currentTimeMillis();
 			currentTime = start;
 			while(!gameEnd) {
-				long nextTimeStep = currentTime + Constants.timeStep * 1000;
+				long nextTimeStep = currentTime + (long)(Constants.timeStep * 1000);
 				move();
 				long temp = System.currentTimeMillis();
 				if (temp < nextTimeStep)
 					Thread.sleep(nextTimeStep-temp);
-				}
 				currentTime = System.currentTimeMillis();
 			}
 			epsilon += epsilonInc;

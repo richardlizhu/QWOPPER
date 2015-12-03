@@ -13,7 +13,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 
-
 // Dependencies are JAI ImageIO and JNA.
 import net.sourceforge.tess4j.*;
 
@@ -62,36 +61,6 @@ public class OCRFactory {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Takes in an image name under the ./images/ directory and estimates
-	 * its level.
-	 * 
-	 * 8/21/2015: UPDATE.  I don't know what happened, but I think League updated
-	 * its icons to be slightly different for skill levels in the HUD.  Either way,
-	 * we need to find a way to walk around this (blob detection with OpenCV maybe?).
-	 * 
-	 * @param  The name of the image file
-	 * @return The skill level
-	 */
-	public static int readSkillLevel(String name) throws IOException {
-		double similarity = 0.0;
-		double temp;
-		int skill = 0;
-		for (int i = 0; i < 6; i++) {
-			temp = compareHistograms("NewSkills/skill0" + i + ".tiff", name);
-			if (temp > similarity) {
-				similarity = temp;
-				skill = i;
-			}
-		}
-		return skill;
-	}
-	
-
-
-	
-	
 	
 	public static String readText(String name, String filter) {
 		String path = "./images/" + name;

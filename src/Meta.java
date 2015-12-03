@@ -32,6 +32,7 @@ public class Meta {
 			}
 			writer.print(" ");
 		}
+		writer.close();
 		/*
 		for (int i = 0 ; i < size;i++)
 		{
@@ -85,6 +86,7 @@ public class Meta {
 			TableEntry t = new TableEntry(n, vals);
 			table.put(key, t);
 		}
+		br.close();
 		return table;
 	}
 

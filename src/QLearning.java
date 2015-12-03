@@ -7,9 +7,11 @@ public class QLearning {
 	private static double epsilonInc = 0.005;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
-	private static boolean gameEnd = false; // indicate gameEnd
+	private static boolean gameEnd = false;
 	private static long start;
 	private static long currentTime;
+	private static double record = -1;
+	private static long recordTime = 0; 
 	
 	public static void main(String[] args) throws NumberFormatException, Exception
 	{
@@ -28,10 +30,14 @@ public class QLearning {
 				if (temp < nextTimeStep)
 					Thread.sleep(nextTimeStep-temp);
 				currentTime = System.currentTimeMillis();
+				checkRecord();
 			}
 			epsilon += epsilonInc;
 			Meta.save("Data.txt", mdp.table);
 			mdp.restart();
+			recordTime = 0;
+			record = -1;
+			gameEnd = false;
 		}
 	}
 	
@@ -50,14 +56,30 @@ public class QLearning {
 			TableEntry current = mdp.current;
 			mdp.takeAction(maxAction); 
 			long time = System.currentTimeMillis() - start;
-			current.values[maxAction] = Reward.reward(OCR.read(), time/1000.0) + gamma*mdp.current.value();
+			double dist = OCR.read();
+			current.values[maxAction] = Reward.reward(dist, time/1000.0) + gamma*mdp.current.value();
+			if (dist > record) {
+				record = dist;
+				recordTime = System.currentTimeMillis();
+			}
 		} else {
 			// explore
 			int i = (int)(Math.random() * Constants.NumActions);
 			TableEntry current = mdp.current;
 			mdp.takeAction(i);
 			long time = System.currentTimeMillis() - start;
-			current.values[i] = Reward.reward(OCR.read(), time/1000.0) + gamma*mdp.current.value();
+			double dist = OCR.read();
+			current.values[i] = Reward.reward(dist, time/1000.0) + gamma*mdp.current.value();
+			if (dist > record) {
+				record = dist;
+				recordTime = System.currentTimeMillis();
+			}
+		}
+	}
+	
+	private static void checkRecord() {
+		if (recordTime - System.currentTimeMillis() > 2000) {
+			gameEnd = true;
 		}
 	}
 	

@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.lang.System;
 
 public class QLearning {
 	
@@ -7,16 +8,17 @@ public class QLearning {
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false; // indicate gameEnd
-	private static double reward = 10;
+	private static long start;
 	
-	public static void main(String[] args) throws FileNotFoundException
+	public static void main(String[] args) throws NumberFormatException, Exception
 	{
 		Learn();
 	}
 	
-	public static void Learn() throws FileNotFoundException {
+	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
 		while(epsilon <= 1) {
+			start = System.currentTimeMillis();
 			while(!gameEnd) {
 				move();
 			}
@@ -26,7 +28,7 @@ public class QLearning {
 		}
 	}
 	
-	public static void move() {
+	public static void move() throws NumberFormatException, Exception {
 		double r = Math.random();
 		if (r < epsilon) {
 			// exploit
@@ -40,13 +42,15 @@ public class QLearning {
 			}
 			TableEntry current = mdp.current;
 			mdp.takeAction(maxAction); 
-			current.values[maxAction] = reward + gamma*mdp.current.value();
+			long time = System.currentTimeMillis() - start;
+			current.values[maxAction] = Reward.reward(OCR.read(), time/1000.0) + gamma*mdp.current.value();
 		} else {
 			// explore
 			int i = (int)(Math.random() * Constants.NumActions);
 			TableEntry current = mdp.current;
-			mdp.takeAction(i); 
-			current.values[i] = reward + gamma*mdp.current.value();
+			mdp.takeAction(i);
+			long time = System.currentTimeMillis() - start;
+			current.values[i] = Reward.reward(OCR.read(), time/1000.0) + gamma*mdp.current.value();
 		}
 	}
 	

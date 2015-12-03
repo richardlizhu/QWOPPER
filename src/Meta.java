@@ -25,7 +25,7 @@ public class Meta {
 			writer.print(";");
 			writer.print(current.node.toString());
 			writer.print(";");
-			int[] currentValues = current.values;
+			double[] currentValues = current.values;
 			for(int i = 0;i < currentValues.length;i++)
 			{
 				writer.print(String.valueOf(currentValues[i]));
@@ -77,7 +77,7 @@ public class Meta {
 			String node = lineSplit[1];
 			String values = lineSplit[2];
 			Node n = new Node(node);
-			int[] vals = new int[16];
+			double[] vals = new double[16];
 			for (int j = 0; j < 16;j++)
 			{
 				vals[j] = (int) values.charAt(j);

@@ -1,9 +1,11 @@
 public class QLearning {
 	
 	private double epsilon = 0.0;
-	private double epsilonInc = 0.001;
+	private double epsilonInc = 0.005;
 	private MDPTable mdp;
+	private double gamma = 0.95;
 	private boolean gameEnd = false; // indicate gameEnd
+	private double reward = 10;
 	
 	public void Learn() {
 		mdp = new MDPTable();
@@ -12,6 +14,7 @@ public class QLearning {
 				move();
 			}
 			epsilon += epsilonInc;
+			mdp.restart();
 		}
 	}
 	
@@ -19,7 +22,7 @@ public class QLearning {
 		double r = Math.random();
 		if (r < epsilon) {
 			// exploit
-			int maxVal = 0;
+			double maxVal = 0;
 			int maxAction = 0;
 			for (int i = 0; i < 15; i++) {
 				if (mdp.current.values[i] > maxVal) {
@@ -27,7 +30,9 @@ public class QLearning {
 					maxAction = i;
 				}
 			}
-			mdp.takeAction(maxAction);
+			String key = mdp.current.toString();
+			mdp.takeAction(maxAction); 
+			mdp.table.get(key).values[maxAction] = reward + gamma*mdp.current.value();
 		} else {
 			// explore
 			int i = (int)(Math.random() * 16);

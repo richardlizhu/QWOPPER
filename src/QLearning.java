@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
@@ -38,7 +39,7 @@ public class QLearning {
 				currentTime = System.currentTimeMillis();
 				checkRecord();
 			}
-			epsilon = Math.max(1, epsilon+epsilonInc);
+			epsilon = Math.min(0.9, epsilon+epsilonInc);
 			Meta.save("Data.txt", mdp.table);
 			mdp.restart();
 			if (record > allTimeRecord) {
@@ -97,9 +98,18 @@ public class QLearning {
 	}
 	
 	private static void checkRecord() {
-		if (System.currentTimeMillis() - recordTime > 3000) {
+		Color color = QLearning.r.getPixelColor(OCRConstants.yellowX, OCRConstants.yellowY);
+		if (color.getRed() == 255 && color.getBlue() == 0 && color.getGreen() == 255)
+		{
 			gameEnd = true;
 		}
+		else
+		{
+			if (System.currentTimeMillis() - recordTime > 8000) {
+				gameEnd = true;
+			}
+		}
+
 	}
 	
 }

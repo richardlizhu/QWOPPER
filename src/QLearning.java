@@ -6,7 +6,7 @@ import java.lang.System;
 public class QLearning {
 	
 	private static double epsilon = 0.0;
-	private static double epsilonInc = 0.001;
+	private static double epsilonInc = 0.1;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false;
@@ -26,7 +26,7 @@ public class QLearning {
 	
 	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
-		while(epsilon <= 1) {
+		while(true) {
 			start = System.currentTimeMillis();
 			currentTime = start;
 			while(!gameEnd) {
@@ -38,7 +38,7 @@ public class QLearning {
 				currentTime = System.currentTimeMillis();
 				checkRecord();
 			}
-			epsilon += epsilonInc;
+			epsilon = Math.max(1, epsilon+epsilonInc);
 			Meta.save("Data.txt", mdp.table);
 			mdp.restart();
 			if (record > allTimeRecord) {
@@ -97,7 +97,7 @@ public class QLearning {
 	}
 	
 	private static void checkRecord() {
-		if (System.currentTimeMillis() - recordTime > 2000) {
+		if (System.currentTimeMillis() - recordTime > 3000) {
 			gameEnd = true;
 		}
 	}

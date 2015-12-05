@@ -2,5 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/justus/Documents/2015-2016/15381/Project/QWOPPER/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/home/justus/Documents/2015-2016/15381/Project/QWOPPER/lib/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="/home/justus/Documents/2015-2016/15381/Project/QWOPPER/lib/jna.jar"/>
+	<classpathentry kind="lib" path="/home/justus/Documents/2015-2016/15381/Project/QWOPPER/lib/tess4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

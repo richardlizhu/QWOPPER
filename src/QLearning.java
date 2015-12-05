@@ -3,10 +3,12 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.lang.System;
+import java.util.ArrayList;
 
 public class QLearning {
 	
 	private static double epsilon = 0.0;
+	private static ArrayList<Double> epsilons = new ArrayList<Double>();
 	private static double epsilonInc = 0.1;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
@@ -29,6 +31,7 @@ public class QLearning {
 	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
 		mdp.table = Meta.load("Data.txt");
+		int level;
 		while(true) {
 			if (gameCounter > 10)
 			{
@@ -38,6 +41,7 @@ public class QLearning {
 			gameCounter++;
 			start = System.currentTimeMillis();
 			currentTime = start;
+			level = 0;
 			while(!gameEnd) {
 				long nextTimeStep = currentTime + (long)(Constants.timeStep * 1000);
 				move();
@@ -46,8 +50,12 @@ public class QLearning {
 					Thread.sleep(nextTimeStep-temp);
 				currentTime = System.currentTimeMillis();
 				checkRecord();
+				if(epsilons.size() == level)
+					epsilons.add(epsilon);
+				epsilons.set(level, Math.min(0.99, epsilons.get(level) + epsilonInc));
+				level++;
 			}
-			epsilon = Math.min(0.99, epsilon+epsilonInc);
+			//epsilon = Math.min(0.99, epsilon+epsilonInc);
 			
 			mdp.restart();
 			System.out.println(String.valueOf(record));

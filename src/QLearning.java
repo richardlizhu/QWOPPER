@@ -17,6 +17,7 @@ public class QLearning {
 	private static long recordTime = 0; 
 	public static Robot r;
 	private static double allTimeRecord = -1000;
+	private static int gameCounter = 0;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -27,7 +28,14 @@ public class QLearning {
 	
 	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
+		mdp.table = Meta.load("Data.txt");
 		while(true) {
+			if (gameCounter > 10)
+			{
+				Meta.save("Data.txt", mdp.table);
+				gameCounter = 0;
+			}
+			gameCounter++;
 			start = System.currentTimeMillis();
 			currentTime = start;
 			while(!gameEnd) {
@@ -39,9 +47,10 @@ public class QLearning {
 				currentTime = System.currentTimeMillis();
 				checkRecord();
 			}
-			epsilon = Math.min(0.9, epsilon+epsilonInc);
-			Meta.save("Data.txt", mdp.table);
+			epsilon = Math.min(0.99, epsilon+epsilonInc);
+			
 			mdp.restart();
+			System.out.println(String.valueOf(record));
 			if (record > allTimeRecord) {
 				System.out.println("allTimeRecord: " + String.valueOf(record));
 				allTimeRecord = record;

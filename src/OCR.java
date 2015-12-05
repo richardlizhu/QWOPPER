@@ -1,16 +1,19 @@
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.PrintWriter;
 
 
 public class OCR {
 
 	public static void main(String[] args) throws NumberFormatException, Exception
 	{
-		while(true)
+
 		{
-			Robot r = new Robot();
-			System.out.println(OCR.read());
-			r.keyRelease(KeyEvent.VK_Q);
+			File f = new File("Test.txt");
+			PrintWriter writer = new PrintWriter(f);
+			writer.print("faffer2");
+			writer.close();
 		}
 	}
 	

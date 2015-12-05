@@ -34,8 +34,9 @@ public class Node
   
   public Node(String s)
   {
-	  dna = new QWOP[s.split("[").length-1];
-	  String[] qwops = s.split("[");
+	  s = s.substring(1,s.length()-1);
+	  dna = new QWOP[s.split("\\]\\[").length];
+	  String[] qwops = s.split("\\]\\[");
 	  for(int i = 0; i < qwops.length;i++)
 	  {
 		  boolean q = false;

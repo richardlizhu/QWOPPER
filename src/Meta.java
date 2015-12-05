@@ -28,6 +28,7 @@ public class Meta {
 			for(int i = 0;i < currentValues.length;i++)
 			{
 				writer.print(String.valueOf(currentValues[i]));
+				writer.print(",");
 			}
 			writer.print(" ");
 		}
@@ -68,24 +69,31 @@ public class Meta {
 		File f = new File(location);
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		String line = br.readLine();
-		String[] lines = line.split(" ");
 		HashMap<String, TableEntry> table = new HashMap<String, TableEntry>();
-		for(int i = 0; i < lines.length;i++)
+		if (line != null)
 		{
-			String[] lineSplit = lines[i].split(";");
-			String key = lineSplit[0];
-			String node = lineSplit[1];
-			String values = lineSplit[2];
-			Node n = new Node(node);
-			double[] vals = new double[Constants.NumActions];
-			for (int j = 0; j < Constants.NumActions; j++)
+			String[] lines = line.split(" ");
+			
+			for(int i = 0; i < lines.length;i++)
 			{
-				vals[j] = (int) values.charAt(j);
+				String[] lineSplit = lines[i].split(";");
+				String key = lineSplit[0];
+				String node = lineSplit[1];
+				String[] values = lineSplit[2].split(",");
+				System.out.println(node);
+				Node n = new Node(node);
+				double[] vals = new double[Constants.NumActions];
+				for (int j = 0; j < Constants.NumActions; j++)
+				{
+					System.out.println(values[j]);
+					vals[j] = Double.valueOf(values[j]);
+				}
+				TableEntry t = new TableEntry(n, vals);
+				table.put(key, t);
 			}
-			TableEntry t = new TableEntry(n, vals);
-			table.put(key, t);
+			br.close();
+			
 		}
-		br.close();
 		return table;
 	}
 

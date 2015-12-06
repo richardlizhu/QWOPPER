@@ -9,7 +9,7 @@ public class QLearning {
 	
 	private static double epsilon = 0.0;
 	private static ArrayList<Double> epsilons = new ArrayList<Double>();
-	private static double epsilonInc = 0.1;
+	private static double epsilonInc = 0.05;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false;
@@ -90,27 +90,24 @@ public class QLearning {
 			if (maxVal == 0) {
 				maxAction = (int)(Math.random() * Constants.NumActions);
 			}
-			TableEntry current = mdp.current;
-			mdp.takeAction(maxAction); 
-			long time = System.currentTimeMillis() - start;
-			double dist = OCR.read();
-			current.values[maxAction] = Reward.reward(dist, time/1000.0) + gamma*mdp.current.value();
-			if (dist > record) {
-				record = dist;
-				recordTime = System.currentTimeMillis();
-			}
+			updateValue(maxAction);
 		} else {
 			// explore
 			int i = (int)(Math.random() * Constants.NumActions);
-			TableEntry current = mdp.current;
-			mdp.takeAction(i);
-			long time = System.currentTimeMillis() - start;
-			double dist = OCR.read();
-			current.values[i] = Reward.reward(dist, time/1000.0) + gamma*mdp.current.value();
-			if (dist > record) {
-				record = dist;
-				recordTime = System.currentTimeMillis();
-			}
+			updateValue(i);
+		}
+	}
+	
+	private static void updateValue(int i) throws Exception {
+		TableEntry current = mdp.current;
+		mdp.takeAction(i);
+		long time = System.currentTimeMillis() - start;
+		double dist = OCR.read();
+		current.visits[i]++;
+		current.values[i] = (1.0 - 1.0/current.visits[i])*current.values[i] + (1.0/current.visits[i])*(Reward.reward(dist, time/1000.0) + gamma*mdp.current.value());
+		if (dist > record) {
+			record = dist;
+			recordTime = System.currentTimeMillis();
 		}
 	}
 	

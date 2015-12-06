@@ -30,6 +30,13 @@ public class Meta {
 				writer.print(String.valueOf(currentValues[i]));
 				writer.print(",");
 			}
+			writer.print(";");
+			int[] currentVisits = current.visits;
+			for(int i = 0; i < currentVisits.length; i++)
+			{
+				writer.print(String.valueOf(currentVisits[i]));
+				writer.print(",");
+			}
 			writer.print(" ");
 		}
 		writer.close();
@@ -80,6 +87,7 @@ public class Meta {
 				String key = lineSplit[0];
 				String node = lineSplit[1];
 				String[] values = lineSplit[2].split(",");
+				String[] visits = lineSplit[3].split(",");
 				System.out.println(node);
 				Node n = new Node(node);
 				double[] vals = new double[Constants.NumActions];
@@ -88,7 +96,12 @@ public class Meta {
 					System.out.println(values[j]);
 					vals[j] = Double.valueOf(values[j]);
 				}
-				TableEntry t = new TableEntry(n, vals);
+				int[] vsts = new int[Constants.NumActions];
+				for(int j = 0; j < Constants.NumActions; j++)
+				{
+					vsts[j] = Integer.valueOf(visits[j]);
+				}
+				TableEntry t = new TableEntry(n, vals, vsts);
 				table.put(key, t);
 			}
 			br.close();

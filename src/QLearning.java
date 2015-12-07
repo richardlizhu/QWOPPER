@@ -33,9 +33,11 @@ public class QLearning {
 		mdp.table = Meta.load("Data.txt");
 		int level;
 		while(true) {
-			if (gameCounter > 10)
+			if (gameCounter > 10) 
 			{
+				System.out.println("saving\n");
 				Meta.save("Data.txt", mdp.table);
+				System.out.println("done saving\n");
 				gameCounter = 0;
 			}
 			gameCounter++;
@@ -67,11 +69,10 @@ public class QLearning {
 			record = -1000;
 			gameEnd = false;
 			Bot.press(new QWOP());
-			r.keyPress(KeyEvent.VK_CONTROL);
 			r.keyPress(KeyEvent.VK_R);
 			Thread.sleep(500);
 			r.keyRelease(KeyEvent.VK_R);
-			r.keyRelease(KeyEvent.VK_CONTROL);
+			Thread.sleep(1000);
 		}
 	}
 	

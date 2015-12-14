@@ -9,7 +9,7 @@ public class QLearning {
 	
 	private static double epsilon = 0.0;
 	private static ArrayList<Double> epsilons = new ArrayList<Double>();
-	private static double epsilonInc = 0.05;
+	private static double epsilonInc = 0.005;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false;
@@ -30,32 +30,50 @@ public class QLearning {
 	
 	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
-		mdp.table = Meta.load("Data.txt");
+		mdp.table = Meta.load("DataTest4.txt");
 		int level;
 		while(true) {
 			if (gameCounter > 10) 
 			{
 				System.out.println("saving\n");
-				Meta.save("Data.txt", mdp.table);
+				Meta.save("DataTest4.txt", mdp.table);
 				System.out.println("done saving\n");
 				gameCounter = 0;
 			}
 			gameCounter++;
+			
+			r.keyPress(KeyEvent.VK_W);
+			r.keyPress(KeyEvent.VK_O);
+			Thread.sleep(6000);
+			r.keyRelease(KeyEvent.VK_W);
+			r.keyRelease(KeyEvent.VK_O);
+			Thread.sleep(100);
 			start = System.currentTimeMillis();
 			currentTime = start;
 			level = 0;
+			
 			while(!gameEnd) {
-				long nextTimeStep = currentTime + (long)(Constants.timeStep * 1000);
+				long nextTimeStep = currentTime + (long)(Constants.timeStep * 1000.0);
+				while(System.currentTimeMillis() < nextTimeStep)
+				{
+					Thread.sleep(5);
+				}
+				currentTime = nextTimeStep;
 				move();
-				long temp = System.currentTimeMillis();
-				if (temp < nextTimeStep)
-					Thread.sleep(nextTimeStep-temp);
-				currentTime = System.currentTimeMillis();
+				//long temp = System.currentTimeMillis();
+				//if (temp < nextTimeStep)
+				//	Thread.sleep(nextTimeStep-temp);
+				//currentTime = System.currentTimeMillis();
 				checkRecord();
 				if(epsilons.size() == level)
 					epsilons.add(epsilon);
 				epsilons.set(level, Math.min(0.99, epsilons.get(level) + epsilonInc));
 				level++;
+				if(level == Constants.NumLevels)
+				{
+					level = 0;
+					mdp.restart();
+				}
 			}
 			//epsilon = Math.min(0.99, epsilon+epsilonInc);
 			
@@ -70,9 +88,8 @@ public class QLearning {
 			gameEnd = false;
 			Bot.press(new QWOP());
 			r.keyPress(KeyEvent.VK_R);
-			Thread.sleep(500);
+			Thread.sleep(250);
 			r.keyRelease(KeyEvent.VK_R);
-			Thread.sleep(1000);
 		}
 	}
 	
@@ -89,12 +106,12 @@ public class QLearning {
 				}
 			}
 			if (maxVal == 0) {
-				maxAction = (int)(Math.random() * Constants.NumActions);
+				maxAction = (int)(Math.random() * (double) Constants.NumActions);
 			}
 			updateValue(maxAction);
 		} else {
 			// explore
-			int i = (int)(Math.random() * Constants.NumActions);
+			int i = (int)(Math.random() * (double) Constants.NumActions);
 			updateValue(i);
 		}
 	}
@@ -120,7 +137,7 @@ public class QLearning {
 		}
 		else
 		{
-			if (System.currentTimeMillis() - recordTime > 8000) {
+			if (System.currentTimeMillis() - recordTime > 10000) {
 				gameEnd = true;
 			}
 		}

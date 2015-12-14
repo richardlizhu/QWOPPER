@@ -33,7 +33,7 @@ public class TableEntry
 	
 	public double value()
 	{
-		double m = 0;
+		double m = -99999999.0;
 		for (int i = 0; i < Constants.NumActions; i++) {
 			m = Math.max(m, values[i]);
 		}

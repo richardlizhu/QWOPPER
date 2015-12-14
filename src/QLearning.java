@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class QLearning {
 	
-	private static double epsilon = 0.0;
+	private static double epsilon = 1.0;
 	private static ArrayList<Double> epsilons = new ArrayList<Double>();
-	private static double epsilonInc = 0.05;
+	//private static double epsilonInc = 0.05;
 	private static MDPTable mdp;
 	private static double gamma = 0.95;
 	private static boolean gameEnd = false;
@@ -20,6 +20,7 @@ public class QLearning {
 	public static Robot r;
 	private static double allTimeRecord = -1000;
 	private static int gameCounter = 0;
+	private static double avgRecord = 0;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -30,17 +31,19 @@ public class QLearning {
 	
 	public static void Learn() throws NumberFormatException, Exception {
 		mdp = new MDPTable();
-		mdp.table = Meta.load("Data.txt");
+		mdp.table = Meta.load("MasterBranchDataExploitTest.txt");
 		int level;
 		while(true) {
+			/*
 			if (gameCounter > 10) 
 			{
 				System.out.println("saving\n");
-				Meta.save("Data.txt", mdp.table);
+				Meta.save("MasterBranchDataExploitTest.txt", mdp.table);
 				System.out.println("done saving\n");
 				gameCounter = 0;
 			}
 			gameCounter++;
+			*/
 			start = System.currentTimeMillis();
 			currentTime = start;
 			level = 0;
@@ -54,7 +57,7 @@ public class QLearning {
 				checkRecord();
 				if(epsilons.size() == level)
 					epsilons.add(epsilon);
-				epsilons.set(level, Math.min(0.99, epsilons.get(level) + epsilonInc));
+				//epsilons.set(level, Math.min(0.99, epsilons.get(level) + epsilonInc));
 				level++;
 			}
 			//epsilon = Math.min(0.99, epsilon+epsilonInc);
@@ -64,6 +67,15 @@ public class QLearning {
 			if (record > allTimeRecord) {
 				System.out.println("allTimeRecord: " + String.valueOf(record));
 				allTimeRecord = record;
+			}
+			if (gameCounter == 0) {
+				avgRecord = record;
+				System.out.println("avgRecord: " + String.valueOf(avgRecord));
+				gameCounter++;
+			} else {
+				avgRecord = avgRecord * gameCounter/(gameCounter + 1.0) + record/(gameCounter+1.0);
+				System.out.println("avgRecord: " + String.valueOf(avgRecord));
+				gameCounter++;
 			}
 			recordTime = 0;
 			record = -1000;
@@ -100,12 +112,12 @@ public class QLearning {
 	}
 	
 	private static void updateValue(int i) throws Exception {
-		TableEntry current = mdp.current;
+		//TableEntry current = mdp.current;
 		mdp.takeAction(i);
-		long time = System.currentTimeMillis() - start;
+		//long time = System.currentTimeMillis() - start;
 		double dist = OCR.read();
-		current.visits[i]++;
-		current.values[i] = (1.0 - 1.0/current.visits[i])*current.values[i] + (1.0/current.visits[i])*(Reward.reward(dist, time/1000.0) + gamma*mdp.current.value());
+		//current.visits[i]++;
+		//current.values[i] = (1.0 - 1.0/current.visits[i])*current.values[i] + (1.0/current.visits[i])*(Reward.reward(dist, time/1000.0) + gamma*mdp.current.value());
 		if (dist > record) {
 			record = dist;
 			recordTime = System.currentTimeMillis();
